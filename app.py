@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.memory import ConversationBufferWindowMemory
-from langchain.chains import ConversationalRetrievalChain
+from langchain_classic.memory import ConversationBufferWindowMemory
+from langchain_classic.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 
 # Setup the environment
