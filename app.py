@@ -140,7 +140,7 @@ if prompt:
         if 'answer' in chunk:
           full_response += chunk['answer']
           container.markdown(full_response + "▌")
-          time.sleep(0.01)
+          time.sleep(0.1)
 
       container.markdown(full_response)
       st.session_state.messages.append({'role': 'assistant', 'content': full_response})
