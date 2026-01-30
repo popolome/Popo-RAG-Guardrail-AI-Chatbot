@@ -175,7 +175,7 @@ if prompt:
 
       container.error(friendly_error)
 
-    # This right here is the feedback to Google Shet
+    # This right here is the feedback to Google Sheet
   st.write("---")
   feedback = st.feedback("thumbs", key=f"fb_{len(st.session_state.messages)}")
 
@@ -185,6 +185,3 @@ if prompt:
     st.toast("Feedback logged! Popo is getting smarter. 🧠")
     time.sleep(1)
     st.rerun()
-
-  # Used to refresh the pills and then update the view
-  st.rerun()
