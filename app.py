@@ -2,7 +2,6 @@
 import streamlit as st
 import os
 import time
-from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -11,9 +10,6 @@ from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_core.prompts import PromptTemplate
 
 # Setup the environment
-load_dotenv()
-groq_api_key = os.getenv("GROQ_API_KEY")
-
 st.set_page_config(page_title="Popo: Apple 10-K Financial Analyst", page_icon="🍏", layout="centered")
 st.title("🍏 Popo: Apple 10-K Financial Analyst")
 st.caption("v1.0 | Powered by Llama 3 & LangChain Modular")
@@ -138,9 +134,14 @@ if prompt:
     try:
       for chunk in popo_chain.stream({'question': prompt}):
         if 'answer' in chunk:
-          full_response += chunk['answer']
-          container.markdown(full_response + "▌")
-          time.sleep(0.1)
+          answer_chunk = chunk['answer']
+
+          # This loops thru each character in the chunk
+          for char in answer_chunk:
+            full_response += char
+            container.markdown(full_response + "▌")
+            time.sleep(0.015)
+            
 
       container.markdown(full_response)
       st.session_state.messages.append({'role': 'assistant', 'content': full_response})
