@@ -2,12 +2,29 @@
 import streamlit as st
 import os
 import time
+from streamlit_gsheets import GSheetsConnection
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_classic.memory import ConversationBufferWindowMemory
 from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_core.prompts import PromptTemplate
+
+# Setup the Google Sheet connection
+conn = st.connection('gsheets', type=GSheetsConnection)
+
+def log_to_sheets(query, response, score):
+  existing_date = conn.read(worksheet="Feedback", ttl=0)
+
+  new_entry = pd.DataFrame([{
+    "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    "User_Query": query,
+    "Popo_Response": response,
+    "Score": "👍" if score == 1 else "👎"
+  }])
+
+  updated_df = pd.concat([existing_data, new_entry], ignore_index=True)
+  conn.update(worksheet="Feedback", data=updated_df)
 
 # Setup the environment
 st.set_page_config(page_title="Popo: Apple 10-K Financial Analyst", page_icon="🍏", layout="centered")
@@ -158,7 +175,16 @@ if prompt:
 
       container.error(friendly_error)
 
+    # This right here is the feedback to Google Shet
+  st.write("---")
+  feedback = st.feedback("thumbs", key=f"fb_{len(st.session_state.messages)}")
+
+  if feedback is not None:
+    # This saves to Google sheet if there is feedback
+    log_to_sheets(prompt, full_response, feedback)
+    st.toast("Feedback logged! Popo is getting smarter. 🧠")
+    time.sleep(1)
+    st.rerun()
+
   # Used to refresh the pills and then update the view
   st.rerun()
-
-    
