@@ -1,7 +1,9 @@
 # Imports
 import streamlit as st
 import os
+import pandas as pd
 import time
+import datetime
 from streamlit_gsheets import GSheetsConnection
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
@@ -14,7 +16,7 @@ from langchain_core.prompts import PromptTemplate
 conn = st.connection('gsheets', type=GSheetsConnection)
 
 def log_to_sheets(query, response, score):
-  existing_date = conn.read(worksheet="Feedback")
+  existing_date = conn.read(worksheet="Feedback", ttl=0)
 
   new_entry = pd.DataFrame([{
     "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
