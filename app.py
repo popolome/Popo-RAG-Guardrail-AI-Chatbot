@@ -35,7 +35,8 @@ def init_popo():
     groq_api_key=groq_api_key,
     temperature=0,
     max_tokens=1000,
-    max_retries=2
+    max_retries=2,
+    streaming=True      # This makes the chatbot text flowy
   )
 
   return vector_db, llm
@@ -138,6 +139,7 @@ if prompt:
         if 'answer' in chunk:
           full_response += chunk['answer']
           container.markdown(full_response + "▌")
+          time.sleep(0.01)
 
       container.markdown(full_response)
       st.session_state.messages.append({'role': 'assistant', 'content': full_response})
