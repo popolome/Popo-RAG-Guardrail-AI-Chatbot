@@ -12,3 +12,4 @@ sentence-transformers
 streamlit>=1.40.0
 st-gsheets-connection
 pandas
+validators==0.22.0
