@@ -15,16 +15,14 @@ from langchain_core.prompts import PromptTemplate
 # Setup the Google Sheet connection
 conn = st.connection('gsheets', type=GSheetsConnection)
 
-# This is for mouse-over effect on the feedback icons
-with st.popover("Rate this response"):
-  st.write("Was this helpful?")
-  feedback = st.feedback("thumbs")
-
-  def log_to_sheets(query, response, score):
+  def log_to_sheets(query, response, score, key):
+    # This checks if google sheets already have this duplicate record
+    if st.session_state.get(f"logged_{key}"):
+      return
+    
     try:
       # This returns an error but popo will continue
       existing_data = conn.read(worksheet="Feedback", ttl=0)
-    
       new_entry = pd.DataFrame([{
         "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "User_Query": query,
@@ -34,7 +32,10 @@ with st.popover("Rate this response"):
     
       updated_df = pd.concat([existing_data, new_entry], ignore_index=True)
       conn.update(worksheet="Feedback", data=updated_df)
-  
+
+      st.session_state[f"logged_{key}"] = True
+      st.toast("Feedback saved! 🧠")
+      
     except Exception as e:
       st.error(f"Error logging to Google Sheets: {e}")
 
@@ -136,14 +137,20 @@ for i, msg in enumerate(st.session_state.messages):
     st.write(msg['content'])
 
     if msg['role'] == 'assistant' and i > 0:
+      log_key = f"logged_{i}"
       fb_key = f"fb_{i}"
-      feedback = st.feedback("thumbs", key=fb_key)
-    
-      if feedback is not None:
-        # This saves to Google sheet if there is feedback
-        user_q = st.session_state.messages[i-1]['content']
-        log_to_sheets(user_q, msg['content'], feedback)
-        st.toast("Feedback logged! Popo is getting smarter. 🧠")
+      
+      with st.popover("Rate this response", icon=":material/reviews:"):
+        st.write("Was this helpful?")
+      
+        if feedback is not None and not is_already_logged:
+          # This saves to Google sheet if there is feedback
+          user_q = st.session_state.messages[i-1]['content']
+          log_to_sheets(user_q, msg['content'], feedback, fb_key)
+          st.session_state[log_key] = True
+          st.toast("Feedback logged! Popo is getting smarter. 🧠")
+
+          st.rerun()
 
 # This handles the input
 prompt = None
