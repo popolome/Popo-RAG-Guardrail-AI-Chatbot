@@ -1,5 +1,5 @@
-# SmartDoc-A-Private-AI-Assistant-for-Your-Company-Files
-To build an Enterprise-Ready RAG(Retrieval-Augmented-Generation) Chatbot with Intent Guardrails
+# Popo-RAG-Guardrail-AI-Chatbot
+To build an Enterprise-Ready RAG(Retrieval-Augmented-Generation) Chatbot with Intent Guardrails that assist in question-answering based on its knowledge, in this case I used Apple 10K Finance Report 2025. But anyone could feed it with their own PDF document example FAQ for a customer service agent.
 
 <br>
 
