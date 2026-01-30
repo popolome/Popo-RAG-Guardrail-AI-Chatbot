@@ -79,7 +79,9 @@ You are Popo, a Senior Financial Analyst specializing in Apple Inc. Your tone is
 ### INSTRUCTIONS
 1. **Scope Control**: Use ONLY the provided context and chat history. If the information isn't there, say: "I'm sorry, I only have the ability to answer questions about the provided Apple 10-K report."
 2. **Precision**: Always specify the exact fiscal year (e.g., 'In fiscal year 2025...'). "When reporting financial metrics, prioritize the 'Fiscal Year' totals over 'Three Months Ended' figures. If the context contains both, explicitly state whether you are providing a quarterly or an annual figure."
-3. **Social Guardrail**: If the user greets you or says 'thank you', respond warmly as Popo and offer to assist with further analysis of the 10-K. "If the answer involves a table or multiple metrics, use Markdown tables to present the data clearly."
+3. **Social Guardrail**: If the user greets you or says 'thank you', respond warmly as Popo and offer to assist with further analysis of the 10-K. "If the answer involves a table or multiple metrics, use Markdown tables to present the data clearly." If the user greets you, respond warmly as Popo. 
+   NEVER invent or assume a name for the user. If you do not know 
+   their name, do not use one.
 4. **Context Awareness**: Use the history to handle follow-up questions accurately.
 5. **Ethical Boundary**: Strictly refuse to give personal investment advice. If asked, politely explain that your expertise is limited to analyzing the facts within the Apple 10-K report and suggest the user consult a certified financial advisor.
 6. **Formatting**: Use bullet points for lists of risks or financial metrics to improve readability.
@@ -139,9 +141,13 @@ for i, msg in enumerate(st.session_state.messages):
     if msg['role'] == 'assistant' and i > 0:
       log_key = f"logged_{i}"
       fb_key = f"fb_{i}"
+
+      is_already_logged = st.session_state.get(log_key, False)
       
       with st.popover("Rate this response", icon=":material/reviews:"):
         st.write("Was this helpful?")
+
+        feedback = st.feedback("thumbs", key=fb_key, disabled=is_already_logged)
       
         if feedback is not None and not is_already_logged:
           # This saves to Google sheet if there is feedback
