@@ -14,7 +14,7 @@ from langchain_core.prompts import PromptTemplate
 conn = st.connection('gsheets', type=GSheetsConnection)
 
 def log_to_sheets(query, response, score):
-  existing_date = conn.read(worksheet="Feedback", ttl=0)
+  existing_date = conn.read(worksheet="Feedback")
 
   new_entry = pd.DataFrame([{
     "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
