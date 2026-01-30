@@ -118,8 +118,20 @@ if len(st.session_state.messages) == 0:
   initial_greeting = "Hello! I'm **Popo**, your Senior Financial Analyst. I've analyzed Apple's 2025 10-K report. How can I help you with the margins, risk factors, or financial statements today?"
   st.session_state.messages.append({'role': 'assistant', 'content': initial_greeting})
 
-for msg in st.session_state.messages:
-  st.chat_message(msg['role']).write(msg['content'])
+# This is the Display Loop % feedback
+for i, msg in enumerate(st.session_state.messages):
+  with st.chat_message(msg['role']):
+    st.write(msg['content'])
+
+    if msg['role'] == 'assistant' and i > 0:
+      fb_key = f"fb_{i}"
+      feedback = st.feedback("thumbs", key=fb_key)
+    
+      if feedback is not None:
+        # This saves to Google sheet if there is feedback
+        user_q = st.session_state.messages[i-1]['content']
+        log_to_sheets(user_q, msg['content'], feedback)
+        st.toast("Feedback logged! Popo is getting smarter. 🧠")
 
 # This handles the input
 prompt = None
@@ -164,6 +176,9 @@ if prompt:
       container.markdown(full_response)
       st.session_state.messages.append({'role': 'assistant', 'content': full_response})
 
+      # This rerun here is to refresh the Display Loop above
+      st.rerun()
+    
     except Exception as e:
       error_msg = str(e)
       if "429" in error_msg:
@@ -174,14 +189,3 @@ if prompt:
         friendly_error = f"😵 **Unexpected Error**: {error_msg}"
 
       container.error(friendly_error)
-
-    # This right here is the feedback to Google Sheet
-  st.write("---")
-  feedback = st.feedback("thumbs", key=f"fb_{len(st.session_state.messages)}")
-
-  if feedback is not None:
-    # This saves to Google sheet if there is feedback
-    log_to_sheets(prompt, full_response, feedback)
-    st.toast("Feedback logged! Popo is getting smarter. 🧠")
-    time.sleep(1)
-    st.rerun()
