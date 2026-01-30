@@ -85,14 +85,6 @@ if 'memory' not in st.session_state:
     output_keys='answer'
   )
 
-# Welcome Message from Popo
-if len(st.session_state.messages) == 0:
-  initial_greeting = "Hello! I'm **Popo**, your Senior Financial Analyst. I've analyzed Apple's 2025 10-K report. How can I help you with the margins, risk factors, or financial statements today?"
-  st.session_state.messages.append({'role': 'assistant', 'content': initial_greeting})
-
-for msg in st.session_state.messages:
-  st.chat_message(msg['role']).write(msg['content'])
-
 # # The ConversationalRetrieval chain, the Popo bot
 # It assigns the Groq Llama3 as the llm, searches vector db for top 10 results
 # And to follow my prompting rules instead of the default
@@ -105,16 +97,42 @@ popo_chain = ConversationalRetrievalChain.from_llm(
   return_source_documents=False
 )
 
-# This is for making the Chat Interface
-if prompt := st.chat_input("Ask Popo about Apple's 2025 margins..."):
-  st.session_state.messages.append({'role': 'user', 'content': prompt})
+# Welcome Message from Popo
+if len(st.session_state.messages) == 0:
+  initial_greeting = "Hello! I'm **Popo**, your Senior Financial Analyst. I've analyzed Apple's 2025 10-K report. How can I help you with the margins, risk factors, or financial statements today?"
+  st.session_state.messages.append({'role': 'assistant', 'content': initial_greeting})
+
+for msg in st.session_state.messages:
+  st.chat_message(msg['role']).write(msg['content'])
+
+# This handles the input
+prompt = None
+
+# Suggestions for the user to choose only if fresh start
+if len(st.session_state.messages) == 1:
+  suggestions = [
+    "📈 2025 Revenue Mix",
+    "🍏 iPhone Growth",
+    "🛡️ Top Risk Factors"
+  ]
+  prompt = st.pills("Quick Analysis:",
+                    suggestions,
+                    index=None
+                   )
+
+# Used st.pills for a new 2026 pill-like look for the buttons
+if not prompt:
+  prompt = st.chat_input("Ask Popo about Apple's 2025 margins...")
+
+if prompt:
+  st.session_state.messages.append({"role": "user", "content": prompt})
   st.chat_message('user').write(prompt)
 
-  with st.chat_message('assistant'):
+  with st.chat_message("assistant"):
     container = st.empty()
     full_response = ""
 
-    # This is to make Popo's output flowy-looking
+  # This is to make Popo's output flowy-looking
     try:
       for chunk in popo_chain.stream({'question': prompt}):
         if 'answer' in chunk:
@@ -134,3 +152,8 @@ if prompt := st.chat_input("Ask Popo about Apple's 2025 margins..."):
         friendly_error = f"😵 **Unexpected Error**: {error_msg}"
 
       container.error(friendly_error)
+
+  # Used to refresh the pills and then update the view
+  st.rerun()
+
+    
