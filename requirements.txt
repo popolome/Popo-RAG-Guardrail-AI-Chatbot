@@ -1,0 +1,13 @@
+langchain
+langchain-classic
+langchain-groq
+langchain-community
+langchain-huggingface
+langchain-text-splitters
+langchain-chroma
+langchain-core
+chromadb
+pypdf
+sentence-transformers
+streamlit>=1.40.0
+python-dotenv
