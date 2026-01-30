@@ -11,3 +11,4 @@ pypdf
 sentence-transformers
 streamlit>=1.40.0
 st-gsheets-connection
+pandas
