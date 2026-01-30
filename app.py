@@ -117,7 +117,7 @@ if len(st.session_state.messages) == 1:
   ]
   prompt = st.pills("Quick Analysis:",
                     suggestions,
-                    index=None
+                    default=None
                    )
 
 # Used st.pills for a new 2026 pill-like look for the buttons
