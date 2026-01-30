@@ -19,6 +19,7 @@ st.caption("v1.0 | Powered by Llama 3 & LangChain Modular")
 def init_popo():
   # This is using langchain_huggingface for the Embeddings
   embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+  groq_api_key=st.secrets['GROQ_API_KEY']
 
   # This is using langchain_chroma for the Vector storing
   vector_db = Chroma(
