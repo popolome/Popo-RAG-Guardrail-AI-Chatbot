@@ -15,29 +15,29 @@ from langchain_core.prompts import PromptTemplate
 # Setup the Google Sheet connection
 conn = st.connection('gsheets', type=GSheetsConnection)
 
-  def log_to_sheets(query, response, score, key):
-    # This checks if google sheets already have this duplicate record
-    if st.session_state.get(f"logged_{key}"):
-      return
+def log_to_sheets(query, response, score, key):
+  # This checks if google sheets already have this duplicate record
+  if st.session_state.get(f"logged_{key}"):
+    return
     
-    try:
-      # This returns an error but popo will continue
-      existing_data = conn.read(worksheet="Feedback", ttl=0)
-      new_entry = pd.DataFrame([{
-        "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "User_Query": query,
-        "Popo_Response": response,
-        "Score": "👍" if score == 1 else "👎"
-      }])
+  try:
+    # This returns an error but popo will continue
+    existing_data = conn.read(worksheet="Feedback", ttl=0)
+    new_entry = pd.DataFrame([{
+      "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+      "User_Query": query,
+      "Popo_Response": response,
+      "Score": "👍" if score == 1 else "👎"
+    }])
     
-      updated_df = pd.concat([existing_data, new_entry], ignore_index=True)
-      conn.update(worksheet="Feedback", data=updated_df)
+    updated_df = pd.concat([existing_data, new_entry], ignore_index=True)
+    conn.update(worksheet="Feedback", data=updated_df)
 
-      st.session_state[f"logged_{key}"] = True
-      st.toast("Feedback saved! 🧠")
+    st.session_state[f"logged_{key}"] = True
+    st.toast("Feedback saved! 🧠")
       
-    except Exception as e:
-      st.error(f"Error logging to Google Sheets: {e}")
+  except Exception as e:
+    st.error(f"Error logging to Google Sheets: {e}")
 
 # Setup the environment
 st.set_page_config(page_title="Popo: Apple 10-K Financial Analyst", page_icon="🍏", layout="centered")
