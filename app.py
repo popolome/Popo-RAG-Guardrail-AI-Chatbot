@@ -133,7 +133,8 @@ popo_chain = ConversationalRetrievalChain.from_llm(
   chain_type='stuff',
   memory=st.session_state.memory,
   combine_docs_chain_kwargs={'prompt': qa_prompt},
-  return_source_documents=True
+  return_source_documents=True,
+  output_key='answer'
 )
 
 # Welcome Message from Popo
