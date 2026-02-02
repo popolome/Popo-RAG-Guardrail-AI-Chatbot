@@ -118,7 +118,7 @@ if 'memory' not in st.session_state:
   st.session_state.memory = ConversationBufferWindowMemory(
     k=3,
     memory_key='chat_history',
-    return_messages=True,
+    return_messages=False,
     output_keys='answer'
   )
 
