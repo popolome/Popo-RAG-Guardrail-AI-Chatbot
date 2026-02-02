@@ -148,7 +148,8 @@ if len(st.session_state.messages) == 0:
 for i, msg in enumerate(st.session_state.messages):
   current_avatar = "🍏" if msg['role'] == 'assistant' else None
   with st.chat_message(msg['role'], avatar=current_avatar):
-    st.write(msg['content'])
+    clean_content = "\n".join([line.lstrip() for line in msg['content'].split('\n')])
+    st.markdown(clean_content)
 
     if msg['role'] == 'assistant' and msg.get('sources'):
       with st.expander("🧐 View Analyst Sources"):
@@ -177,7 +178,7 @@ for i, msg in enumerate(st.session_state.messages):
           user_q = st.session_state.messages[i-1]['content']
           log_to_sheets(user_q, msg['content'], feedback, fb_key)
           st.session_state[log_key] = True
-          st.toast("Feedback logged! Popo is getting smarter. 🧠")
+          st.toast("Thank you for your feedback! Popo is getting smarter. 🧠")
 
           st.rerun()
 
