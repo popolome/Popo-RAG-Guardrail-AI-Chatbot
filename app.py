@@ -121,7 +121,7 @@ if 'memory' not in st.session_state:
     k=3,
     memory_key='chat_history',
     return_messages=False,
-    output_keys='answer'
+    output_key='answer'
   )
 
 # # The ConversationalRetrieval chain, the Popo bot
