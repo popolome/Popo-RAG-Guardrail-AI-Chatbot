@@ -133,7 +133,7 @@ popo_chain = ConversationalRetrievalChain.from_llm(
   chain_type='stuff',
   memory=st.session_state.memory,
   combine_docs_chain_kwargs={'prompt': qa_prompt},
-  return_source_documents=False
+  return_source_documents=True
 )
 
 # Welcome Message from Popo
@@ -147,6 +147,14 @@ for i, msg in enumerate(st.session_state.messages):
   with st.chat_message(msg['role'], avatar=current_avatar):
     st.write(msg['content'])
 
+    if msg['role'] == 'assistant' and msg.get('sources'):
+      with st.expander("🧐 View Analyst Sources"):
+        for doc in msg['sources']:
+          page_num = doc.metadata.get('page', 'Unknown')
+          st.caption(f"**From Page {page_num}:**")
+          st.write(doc.page_content)
+          st.divider()
+    
     if msg['role'] == 'assistant' and i > 0:
       log_key = f"logged_{i}"
       fb_key = f"fb_{i}"
@@ -196,6 +204,7 @@ if prompt:
 
   # This is to make Popo's output flowy-looking
     try:
+      sources = []        # This is a blank list for sources
       for chunk in popo_chain.stream({'question': prompt}):
         if 'answer' in chunk:
           answer_chunk = chunk['answer']
@@ -205,10 +214,16 @@ if prompt:
             full_response += char
             container.markdown(full_response + "▌")
             time.sleep(0.015)
-            
+
+        if 'source_documents' in chunk:
+          sources = chunk['source_documents']
 
       container.markdown(full_response)
-      st.session_state.messages.append({'role': 'assistant', 'content': full_response})
+      st.session_state.messages.append({
+        'role': 'assistant',
+        'content': full_response,
+        'sources': sources
+      })
 
       # This rerun here is to refresh the Display Loop above
       st.rerun()
