@@ -34,7 +34,7 @@ def log_to_sheets(query, response, score, key):
     conn.update(worksheet="Feedback", data=updated_df)
 
     st.session_state[f"logged_{key}"] = True
-    st.session_state("show_feedback_toast") = True
+    st.session_state["show_feedback_toast"] = True
       
   except Exception as e:
     st.error(f"Error logging to Google Sheets: {e}")
@@ -46,7 +46,7 @@ st.title("🍏 Popo: Apple 10-K Financial Analyst")
 # This is for showing the feedback toast
 if st.session_state.get("show_feedback_toast"):
   st.toast("Thank you for your feedback! Popo is getting smarter. 🧠")
-  del st.session_state("show_feedback_toast")        # And then deleting them after it is done
+  del st.session_state["show_feedback_toast"]       # And then deleting them after it is done
   
 st.caption("v1.0 | Powered by Llama 3 & LangChain Modular")
 
