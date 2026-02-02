@@ -136,7 +136,7 @@ if len(st.session_state.messages) == 0:
 # This is the Display Loop % feedback
 for i, msg in enumerate(st.session_state.messages):
   current_avatar = "🍏" if msg['role'] == 'assistant' else "👤"
-  with st.chat_message(msg['role']):
+  with st.chat_message(msg['role'], avatar=current_avatar):
     st.write(msg['content'])
 
     if msg['role'] == 'assistant' and i > 0:
