@@ -12,6 +12,22 @@ from langchain_classic.memory import ConversationBufferWindowMemory
 from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_core.prompts import PromptTemplate
 
+# This is the reset sidebar
+with st.sidebar:
+  st.title("🍏 Popo's Control Panel")
+  st.markdown("---")
+
+  # This is the nuclear reset button to clear UI and LangChain memory
+  if st.button("🗑️ Reset Analyst Session", use_container_width=True, type="primary"):
+    st.session_state.messages = []
+    if 'memory' in st.session_state:
+      st.session_state.memory.clear()
+
+    st.rerun()
+
+  st.markdown("---")
+  st.caption("Popo v1.0 | Powered by Llama 3 & LangChain Modular")
+
 # Setup the Google Sheet connection
 conn = st.connection('gsheets', type=GSheetsConnection)
 
