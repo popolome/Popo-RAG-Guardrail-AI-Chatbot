@@ -171,6 +171,20 @@ for i, msg in enumerate(st.session_state.messages):
     clean_content = "\n".join([line.lstrip() for line in msg['content'].split('\n')])
     st.markdown(clean_content)
 
+    # This is the copy to clipboard button
+    if msg['role'] == 'assistant':
+      msg_key = f"copy_{i}"
+      
+      col1, col2 = st.columns([0.85, 0.15])
+      with col2:
+        copy_button(
+          msg['content'],
+          tooltip="📋 Copy Analysis",
+          copied_label="✅ Copied!",
+          icon='st',
+          key=msg_key"
+        )
+
     if msg['role'] == 'assistant' and msg.get('sources'):
       with st.expander("🧐 View Analyst Sources"):
         for s_idx, doc in enumerate(msg['sources']):
@@ -258,21 +272,7 @@ if prompt:
 
       final_clean = "\n".join([line.lstrip() for line in full_response.split('\n')])
       container.markdown(final_clean)
-      
-      # This is a unique key based on message count
-      msg_key = f"copy_btn_{len(st.session_state.messages)}"
-      
-      # This is the copy to clipboard button
-      col1, col2 = st.columns([0.85, 0.15])
-      with col2:
-        copy_button(
-        final_clean,
-        tooltip='📋 Copy Analysis',
-        copied_label="✅ Copied!",
-        icon='st',
-        key=msg_key
-      )
-      
+       
       st.session_state.messages.append({
         'role': 'assistant',
         'content': final_clean,
