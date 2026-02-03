@@ -24,7 +24,8 @@ with st.sidebar:
       st.session_state.memory.clear()
 
     st.rerun()
-
+    
+  st.caption("This resets the Popo UI and Memory")
   st.markdown("---")
   st.caption("Popo v1.0 | Powered by Llama 3 & LangChain Modular")
 
