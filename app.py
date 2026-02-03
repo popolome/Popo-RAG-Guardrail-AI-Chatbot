@@ -260,7 +260,12 @@ if prompt:
       container.markdown(final_clean)
 
       # This is the copy to clipboard button
-      copy_button(final_clean, label='📋 Copy Analysis', icon='st')
+      copy_button(
+        final_clean,
+        before_copy_label='📋 Copy Analysis',
+        after_copy_label="✅ Copied!",
+        icon='st'
+      )
       
       st.session_state.messages.append({
         'role': 'assistant',
