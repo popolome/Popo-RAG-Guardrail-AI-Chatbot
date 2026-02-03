@@ -5,6 +5,7 @@ import pandas as pd
 import time
 import datetime
 from streamlit_gsheets import GSheetsConnection
+from st_copy import copy_button
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -258,6 +259,9 @@ if prompt:
       final_clean = "\n".join([line.lstrip() for line in full_response.split('\n')])
       container.markdown(final_clean)
 
+      # This is the copy to clipboard button
+      copy_button(final_clean, label='📋 Copy Analysis', icon='st')
+      
       st.session_state.messages.append({
         'role': 'assistant',
         'content': final_clean,
