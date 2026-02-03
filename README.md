@@ -70,3 +70,9 @@ Popo is a specialized RAG (Retrieval-Augmented Generation) assistant designed to
 4. Run pip install -r requirements.txt.
 
 5. Launch with streamlit run app.py.
+
+<br>
+<br>
+
+**Future Improvements**
+* For production-scale deployment, this container is ready to be orchestrated via Kubernetes to handle high-concurrency financial queries.
