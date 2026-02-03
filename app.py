@@ -182,7 +182,7 @@ for i, msg in enumerate(st.session_state.messages):
           tooltip="📋 Copy Analysis",
           copied_label="✅ Copied!",
           icon='st',
-          key=msg_key"
+          key=msg_key
         )
 
     if msg['role'] == 'assistant' and msg.get('sources'):
