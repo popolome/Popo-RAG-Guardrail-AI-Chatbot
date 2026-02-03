@@ -258,13 +258,19 @@ if prompt:
 
       final_clean = "\n".join([line.lstrip() for line in full_response.split('\n')])
       container.markdown(final_clean)
-
+      
+      # This is a unique key based on message count
+      msg_key = f"copy_btn_{len(st.session_state.messages)}"
+      
       # This is the copy to clipboard button
-      copy_button(
+      col1, col2 = st.columns([0.85, 0.15])
+      with col2:
+        copy_button(
         final_clean,
-        before_copy_label='📋 Copy Analysis',
-        after_copy_label="✅ Copied!",
-        icon='st'
+        tooltip='📋 Copy Analysis',
+        copied_label="✅ Copied!",
+        icon='st',
+        key=msg_key
       )
       
       st.session_state.messages.append({
