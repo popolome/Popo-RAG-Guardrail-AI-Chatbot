@@ -220,16 +220,20 @@ if prompt:
           # This loops thru each character in the chunk
           for char in answer_chunk:
             full_response += char
-            container.markdown(full_response + "▌")
+            # This prevents popo from streaming green text
+            clean_preview = "\n".join([line.lstrip() for line in full_response.spilt('\n')])
+            container.markdown(clean_preview + "▌")
             time.sleep(0.015)
 
         if 'source_documents' in chunk:
           sources = chunk['source_documents']
 
-      container.markdown(full_response)
+      final_clean = "\n".join([line.lstrip() for line in full_response.spilt('\n')])
+      container.markdown(final_clean)
+
       st.session_state.messages.append({
         'role': 'assistant',
-        'content': full_response,
+        'content': final_clean,
         'sources': sources
       })
 
