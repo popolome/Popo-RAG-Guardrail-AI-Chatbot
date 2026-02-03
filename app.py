@@ -25,7 +25,7 @@ with st.sidebar:
 
     st.rerun()
     
-  st.caption("This resets the Popo UI and Memory")
+  st.caption("This resets Popo's UI and Memory", selection_mode='center')
   st.markdown("---")
   st.caption("Popo v1.0 | Powered by Llama 3 & LangChain Modular")
 
