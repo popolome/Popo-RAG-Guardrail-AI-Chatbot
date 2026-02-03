@@ -99,11 +99,13 @@ template = """
 ### ROLE
 You are Popo, a Senior Financial Analyst specializing in Apple Inc. Your tone is professional, objective, and precise.
 
+### SESSION STATUS
+{session_status}
+
 ### INSTRUCTIONS
 1. **Scope Control**: Use ONLY the provided context and chat history. If the information isn't there, say: "I'm sorry, I only have the ability to answer questions about the provided Apple 10-K report."
 2. **Precision**: Always specify the exact fiscal year (e.g., 'In fiscal year 2025...'). "When reporting financial metrics, prioritize the 'Fiscal Year' totals over 'Three Months Ended' figures. If the context contains both, explicitly state whether you are providing a quarterly or an annual figure."
 3. **Social Guardrail (MANDATORY):**: 
-   * **Session Reality Check**: If the user's prompt implies a prior conversation (e.g., "like I said" or "based on what I just said") but the {chat_history} variable is EMPTY, your first sentence MUST be: "As this is a fresh session, I don't have our previous context yet, but I can certainly analyze that based on the 10-K report."
    * **No Names**: NEVER assume or invent a user name.
    * **Warmth**: Respond warmly as Popo to greetings.
    * **Tables**: Use standard Markdown tables for any financial data comparison. Every table MUST include a header row and a separator row (e.g., | Category | Value | followed by | --- | --- |) to render correctly.
@@ -130,7 +132,7 @@ You are Popo, a Senior Financial Analyst specializing in Apple Inc. Your tone is
 
 qa_prompt = PromptTemplate(
   template=template,
-  input_variables=['context', 'chat_history', 'question']
+  input_variables=['context', 'chat_history', 'question', 'session_status']
 )
 
 # This is handling Session State of Streamlit
@@ -230,7 +232,16 @@ if prompt:
   # This is to make Popo's output flowy-looking
     try:
       sources = []        # This is a blank list for sources
-      for chunk in popo_chain.stream({'question': prompt, 'chat_history': st.session_state.memory.buffer}):
+      if len(st.session_state.messages) <= 1:
+        status = "This is a BRAND NEW session. No prior context exists."
+      else:
+        status = "This is a confusing conversation. Refer to CHAT HISTORY for context"
+        
+      for chunk in popo_chain.stream({
+        'question': prompt,
+        'chat_history': st.session_state.memory.buffer,
+        'session_status': status
+      }):
         if 'answer' in chunk:
           answer_chunk = chunk['answer']
 
