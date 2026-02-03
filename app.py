@@ -213,7 +213,7 @@ if prompt:
   # This is to make Popo's output flowy-looking
     try:
       sources = []        # This is a blank list for sources
-      for chunk in popo_chain.stream({'question': prompt}):
+      for chunk in popo_chain.stream({'question': prompt, 'chat_history': st.session_state.memory.buffer}):
         if 'answer' in chunk:
           answer_chunk = chunk['answer']
 
@@ -221,14 +221,14 @@ if prompt:
           for char in answer_chunk:
             full_response += char
             # This prevents popo from streaming green text
-            clean_preview = "\n".join([line.lstrip() for line in full_response.spilt('\n')])
+            clean_preview = "\n".join([line.lstrip() for line in full_response.split('\n')])
             container.markdown(clean_preview + "▌")
             time.sleep(0.015)
 
         if 'source_documents' in chunk:
           sources = chunk['source_documents']
 
-      final_clean = "\n".join([line.lstrip() for line in full_response.spilt('\n')])
+      final_clean = "\n".join([line.lstrip() for line in full_response.split('\n')])
       container.markdown(final_clean)
 
       st.session_state.messages.append({
