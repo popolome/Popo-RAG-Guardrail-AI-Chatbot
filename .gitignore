@@ -1,0 +1,21 @@
+# --- Private Secrets ---
+.env 
+.streamlit/secrets.toml
+
+# --- Python Clutter ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# --- Data & Database ---
+# This is to keep local large PDFs and temporary DB out of cloud
+*.pdf
+!Apple_10K_Report.pdf        # Except for this
+apple_chroma_db/
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
