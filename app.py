@@ -154,12 +154,12 @@ for i, msg in enumerate(st.session_state.messages):
 
     if msg['role'] == 'assistant' and msg.get('sources'):
       with st.expander("🧐 View Analyst Sources"):
-        for i, doc in enumerate(msg['sources']):
+        for s_idx, doc in enumerate(msg['sources']):
           page_num = doc.metadata.get('page', 'Unknown')
           # This grabs the first 250 characters and add ... if greater than 250 else show full content
           preview_text = (doc.page_content[:250] + '...') if len(doc.page_content) > 250 else doc.page_content
           
-          st.caption(f"**Source {i+1} (Page {page_num}):**")
+          st.caption(f"**Source {s_idx+1} (Page {page_num}):**")
           st.write(preview_text)
           st.divider()
     
