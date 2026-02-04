@@ -113,7 +113,50 @@ To use the Google Sheets rating feature, add the following to your .streamlit/se
 ... (other GCP fields)
 
 ---
+🚢 **Deployment & Architecture**
 
+Popo is designed to be platform-agnostic. While a live version is hosted on Streamlit Cloud, the project is fully containerized using Docker for production-grade deployment on Render. Project successfully tested on Render via Docker. Optimized for 1GB+ RAM environments; currently suspended to manage resources.
+
+## Proof of Docker Deployment via Render
+
+<img width="500" height="500" alt="Render Successful Docker Deployment 1" src="https://github.com/user-attachments/assets/07f0a9ee-bbce-416b-9e5f-9306448c59c1" />
+
+<img width="500" height="500" alt="Render Successful Docker Deployment 2" src="https://github.com/user-attachments/assets/45a7784a-8ee2-43ef-8d74-67fb6c28ae10" />
+
+<br>
+<br>
+<br>
+
+However, I ran out of memory (OOM) due to Render's free tier of 512MB RAM (see images below). But, I still managed to containerize it and deployed it to production (cloud environment), still a successful job. Anyways, I already have working Popo on streamlit cloud (link on top).
+
+<img width="500" height="500" alt="Render Successful Docker Deployment 3" src="https://github.com/user-attachments/assets/37bdd64e-0834-4554-a4e6-f5422600cf70" />
+
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/6c339225-7213-4795-84c5-c77bcbbe362f" />
+
+
+
+<br>
+<br>
+
+🐳 **Why Docker?**
+
+**Reproducibility**: Ensures the RAG pipeline (LangChain + ChromaDB) runs identically in local and cloud environments.
+
+**Scalability**: The image can be deployed to any cloud provider (AWS, GCP, Azure) without code changes.
+
+**Security**: System-level dependencies are isolated within the container.
+
+<br>
+
+🛠️ **Deploying to Render**
+
+**Connect GitHub**: Linked this repository to a Render Web Service.
+
+**Docker Runtime**: Render detects the Dockerfile and builds the image automatically.
+
+**Secrets Management**: API keys (Groq, Google Sheets) are handled via Render's Environment Variables, keeping the code secure.
+
+---
 🌠 **Future Improvements**
 * For production-scale deployment, this container is ready to be orchestrated via Kubernetes to handle high-concurrency financial queries.
 
@@ -126,7 +169,11 @@ To use the Google Sheets rating feature, add the following to your .streamlit/se
 * I named it Popo, my online gaming nickname.
 * Re-fined Popo's Prompt and added a few functionalities like reset, rating, memory, formating, etc.
 * Spent like a week or more and finally deem it "great enough".
-* Built a Docker for Popo.
+* Built a Docker for Popo, but ran out of memory(OOM) on Render.
+* Popo requires more RAM if want to deploy it.
+* Popo is also able to be trained on other corpus like customer service FAQ, just feed him with it and adjust his prompts.
+* Anyways, already have a working Popo on Streamlit Cloud.
+* Decommisioned Popo from Render after deployment testing.
 * To be honest, if Groq API was not free, I may not have Popo.
 * It was a great and semi-tough experience building it from ground up.
 * This is a portfolio for my Data Scientist dream.
