@@ -55,7 +55,8 @@ def log_to_sheets(query, response, score, key):
     st.session_state["show_feedback_toast"] = True
       
   except Exception as e:
-    st.error(f"Error logging to Google Sheets: {e}")
+    # This logs the simple error to the developer in their console
+    st.error(f"Feedback system unavailable: {e}")
 
 # Setup the environment
 st.set_page_config(page_title="Popo: Apple 10-K Financial Analyst", page_icon="🍏", layout="centered")
