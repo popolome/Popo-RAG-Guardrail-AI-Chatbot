@@ -94,7 +94,12 @@ This project is fully containerized for consistency and easy deployment.
 <br>
 
 📊 **Setting up the Rating System**
+
+<img width="500" height="500" alt="Google Sheets" src="https://github.com/user-attachments/assets/ddee3ead-cae0-4a13-85ff-22ac36d505f9" />
+
 To use the Google Sheets rating feature, add the following to your .streamlit/secrets.toml (or your Cloud provider's Secrets settings):
+
+<br>
 
 [connections.gsheets]
 
