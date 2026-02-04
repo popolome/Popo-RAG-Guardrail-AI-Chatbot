@@ -30,6 +30,7 @@ I was inspired by production-grade bots like [Scenario's AI](https://www.scenari
 <br>
 <br>
 
+---
 # 📈 Popo: Enterprise-Ready Apple 10-K Analyst
 Popo is a specialized RAG (Retrieval-Augmented Generation) assistant designed to analyze Apple Inc.'s 2025 Fiscal 10-K filings with professional-grade precision and ethical guardrails.
 
@@ -58,8 +59,8 @@ Popo is a specialized RAG (Retrieval-Augmented Generation) assistant designed to
 * Data Integrity: Restricts answers strictly to the provided 10-K document to prevent hallucinations.
 
 <br>
-<br>
 
+---
 🚀 **How to Run**
 
 **Option 1: Standard Installation**
@@ -92,12 +93,31 @@ This project is fully containerized for consistency and easy deployment.
 <br>
 <br>
 
+📊 **Setting up the Rating System**
+To use the Google Sheets rating feature, add the following to your .streamlit/secrets.toml (or your Cloud provider's Secrets settings):
+
+[connections.gsheets]
+
+**spreadsheet** = "https://docs.google.com/spreadsheets/d/your-id-here"
+
+**type** = "service_account"
+
+**project_id** = "..."
+
+**private_key_id** = "..."
+
+**private_key** = "..."
+
+**client_email** = "..."
+
+... (other GCP fields)
+
+---
+
 🌠 **Future Improvements**
 * For production-scale deployment, this container is ready to be orchestrated via Kubernetes to handle high-concurrency financial queries.
 
-<br>
-<br>
-
+---
 📝 **Key Notes from Me**:
 * I stumbled across Scenario from a email newsletter from Susan Shu Chang (Principal Data Scientist).
 * I saw a chatbot at the web, so I tested it out, found out it was a good chatbot.
