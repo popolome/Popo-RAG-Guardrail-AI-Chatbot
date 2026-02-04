@@ -133,6 +133,15 @@ However, I ran out of memory (OOM) due to Render's free tier of 512MB RAM (see i
 
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/6c339225-7213-4795-84c5-c77bcbbe362f" />
 
+<br>
+<br>
+<br>
+
+📴 **Decommissioning**
+
+I then decommissioned the Docker on Render after testing is done.
+
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/4988e0cc-e7a1-43a1-a08f-98bd8878364f" />
 
 
 <br>
