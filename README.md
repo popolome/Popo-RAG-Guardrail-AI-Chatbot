@@ -61,18 +61,62 @@ Popo is a specialized RAG (Retrieval-Augmented Generation) assistant designed to
 <br>
 
 🚀 **How to Run**
-1. Clone this repo.
 
-2. Unzip apple_chroma_db_export.zip.
+**Option 1: Standard Installation**
+1. **Clone this repo**: git clone https://github.com/popolome/Popo-RAG-Guardrail-AI-Chatbot.git
 
-3. Add your GROQ_API_KEY to a .env file.
+2. **Setup Environment**: Create a .env file and add your GROQ_API_KEY.
 
-4. Run pip install -r requirements.txt.
+3. **Install Dependencies**: pip install -r requirements.txt
 
-5. Launch with streamlit run app.py.
+4. **Launch**: streamlit run app.py
 
 <br>
 <br>
 
-**Future Improvements**
+**Option 2: Docker (Recommended for Production)**
+
+This project is fully containerized for consistency and easy deployment.
+1. **Build the Image (Bash)**:
+
+   docker build -t popo-analyst .
+
+<br>
+   
+2. **Run the Container (Bash)**:
+   
+   docker run -p 8501:8501 --env-file .env popo-analyst
+
+   _Access the app at http://localhost:8501_
+
+<br>
+<br>
+
+🌠 **Future Improvements**
 * For production-scale deployment, this container is ready to be orchestrated via Kubernetes to handle high-concurrency financial queries.
+
+<br>
+<br>
+
+📝 **Key Notes from Me**:
+* I stumbled across Scenario from a email newsletter from Susan Shu Chang (Principal Data Scientist).
+* I saw a chatbot at the web, so I tested it out, found out it was a good chatbot.
+* Researched on how to create something similar and great like theirs.
+* Used Colab to build the LLM with Llama-3 and Groq.
+* I named it Popo, my online gaming nickname.
+* Re-fined Popo's Prompt and added a few functionalities like reset, rating, memory, formating, etc.
+* Spent like a week or more and finally deem it "great enough".
+* Built a Docker for Popo.
+* To be honest, if Groq API was not free, I may not have Popo.
+* It was a great and semi-tough experience building it from ground up.
+* This is a portfolio for my Data Scientist dream.
+
+<br>
+
+That's all from me.
+
+<br>
+
+Yours Truly,
+
+Jun Kit Mak
