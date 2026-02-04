@@ -1,0 +1,16 @@
+# This will ignore the Git metadata
+.git
+.gitignore
+
+# This will ignore local Python environments
+.venv
+venv
+env
+__pycache__
+
+# This will ignore local secrets
+.env
+.streamlit/secrets.toml
+
+# This will ignore large vector files
+apple_chroma_db/
