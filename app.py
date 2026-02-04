@@ -56,7 +56,7 @@ def log_to_sheets(query, response, score, key):
       
   except Exception as e:
     # This logs the simple error to the developer in their console
-    st.error(f"Feedback system unavailable: {e}")
+    print(f"Feedback system unavailable: {e}")
 
 # Setup the environment
 st.set_page_config(page_title="Popo: Apple 10-K Financial Analyst", page_icon="🍏", layout="centered")
